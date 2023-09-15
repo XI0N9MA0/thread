@@ -8,7 +8,6 @@ import Thread from "../models/thread.model";
 import User from "../models/user.model";
 
 import { connectToDB } from "../mongoose";
-import { StrictMode } from "react";
 
 export async function fetchUser(userId: string) {
   try {
@@ -17,9 +16,8 @@ export async function fetchUser(userId: string) {
     return await User.findOne({ id: userId }).populate({
       path: "communities",
       model: Community,
-      strictPopulate: false
-    },
-    );
+      strictPopulate: false,
+    });
   } catch (error: any) {
     throw new Error(`Failed to fetch user: ${error.message}`);
   }
@@ -118,7 +116,7 @@ export async function fetchUsers({
     const skipAmount = (pageNumber - 1) * pageSize;
 
     // Create a case-insensitive regular expression for the provided search string.
-    const regex = new RegExp(searchString, "i");//i means case sensitive
+    const regex = new RegExp(searchString, "i");
 
     // Create an initial query object to filter users.
     const query: FilterQuery<typeof User> = {
